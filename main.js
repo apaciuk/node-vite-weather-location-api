@@ -20,7 +20,8 @@ const getData = async (url, host) => {
   return await response.json()
 };
 
-const runApiQueries = async () => {
+const runApiQueries = async () => { 
+  const app = document.getElementById('app')
 // GET CITY NAME
 const geoData = await getData(GEOLOCATION_URL, GEOLOCATION_HOST);
 console.log(geoData);
@@ -28,7 +29,23 @@ console.log(geoData);
 const weatherData = await getData(
   WEATHER_URL + geoData.city.name, 
   WEATHER_HOST);
-console.log(weatherData);
+console.log(weatherData); 
+// UPDATE UI
+app.innerHTML += /*html*/ `
+<div class="container text-center
+    <div class="alert alert-primary" role="alert"><h1>Mixed API Feed</h1></div>
+    <div class="col-md-12 text-center"> 
+      <h1>${weatherData.weather[0].main}</h1> 
+      <h2>${weatherData.main.temp}</h2> 
+      <h4>${weatherData.weather[0].description.toUpperCase()}</h4>
+      <div class="flex-container">
+      <img class="img-fluid" src="https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png" alt="Icon">
+     <h3>${weatherData.name}</h3> 
+ 
+     </div>
+     </div>
+     </div>
+     </div> `
 }
 
 runApiQueries();
